@@ -1,6 +1,32 @@
 #ifndef TAR_H
 #define TAR_H
 
+#include <stdbool.h>
+#include <stdio.h>
+
+#define NULL_TERMINATOR_SIZE 1
+#define DEFAULT_PERMISSIONS  (S_IRWXU | S_IRWXG | S_IRWXO)
+
+#define ARCHIVE_BLOCK_SIZE    512 /* The size of an archive block */
+#define ARCHIVE_NAME_SIZE     100 /* File name portion of the header */
+#define ARCHIVE_MODE_SIZE     8   /* File modes portion of the header */
+#define ARCHIVE_UID_SIZE      8   /* User id portion of the header */
+#define ARCHIVE_GID_SIZE      8   /* Group id portion of the header */
+#define ARCHIVE_SIZE_SIZE     12  /* File size portion of the header */
+#define ARCHIVE_MTIME_SIZE    12  /* Modification time portion of the header */
+#define ARCHIVE_CHKSUM_SIZE   8   /* Checksum portion of the header */
+#define ARCHIVE_TYPEFLAG_SIZE 1   /* File type portion of the header */
+#define ARCHIVE_LINKNAME_SIZE 100 /* Link name portion of the header */
+#define ARCHIVE_MAGIC_SIZE    6   /* Magic number portion of the header */
+#define ARCHIVE_MAGIC         "ustar" /* Magic number of the header */
+#define ARCHIVE_VERSION_SIZE  2       /* Version portion of the header */
+#define ARCHIVE_VERSION       "00"    /* Version of the header */
+#define ARCHIVE_UNAME_SIZE    32      /* User name portion of the header */
+#define ARCHIVE_GNAME_SIZE    32      /* Group name portion of the header */
+#define ARCHIVE_DEVMAJOR_SIZE 8   /* Major device number portion of header */
+#define ARCHIVE_DEVMINOR_SIZE 8   /* Minor device number portion of header */
+#define ARCHIVE_PREFIX_SIZE   155 /* Prefix portion of the header */
+
 #define PERMISSIONS_WIDTH 10
 #define OWNER_GROUP_WIDTH 17
 #define SIZE_WIDTH        8
@@ -62,5 +88,13 @@ typedef struct USTARHeader {
   /* Prefix portion of the header */
   char prefix[ARCHIVE_PREFIX_SIZE];
 } USTARHeader;
+
+/* Begin function prototype declarations */
+void createArchive(char *archive_name, int file_count, char *file_names[],
+    bool verbose, bool strict);
+void createArchiveHelper(
+    FILE *archive, char *curr_path, bool verbose, bool strict);
+void listArchive(char *archive_name, int verbose, int strict);
+void extractArchive(char *archive_name, int verbose, int strict);
 
 #endif /* TAR_H */

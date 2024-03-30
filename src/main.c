@@ -1,0 +1,68 @@
+#include <getopt.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "tar.h"
+
+#define USAGE_STRING \
+  "Usage: %s  [ctxvS]f tarfile [ path [ ... ] ]\n" /* Program usage string */
+#define SYSCALL_ERROR -1
+
+/**
+ * Prints the proper usage of the program and exits unsuccessfully.
+ */
+void usage(char* prog_name) {
+  fprintf(stderr, USAGE_STRING, prog_name);
+  exit(EXIT_FAILURE);
+}
+
+/**
+ * @brief Program entry point
+ *
+ * @param argc - the number of command line arguments
+ * @param argv - an array of command line arguments
+ * @return int - the exit status
+ */
+int main(int argc, char* argv[]) {
+  enum TarOptions opt;
+  int create = 0, list = 0, extract = 0, verbose = 0, strict = 0;
+  char* archive_name = NULL;
+  while ((opt = getopt(argc, argv, "ctxvSf:")) != OUT_OF_OPTIONS) {
+    switch (opt) {
+      case CREATE_ARCHIVE:
+        create = 1;
+        break;
+      case LIST_CONTENTS:
+        list = 1;
+        break;
+      case EXTRACT_CONTENTS:
+        extract = 1;
+        break;
+      case VERBOSE_OUTPUT:
+        verbose = 1;
+        break;
+      case SPECIFY_ARCHIVE_NAME:
+        archive_name = optarg;
+        break;
+      case STRICT_FORMAT:
+        strict = 1;
+        break;
+      default:
+        usage(*argv);
+    }
+  } /* Ensure only one operation and the archive name are specified. */
+  if ((create + list + extract) != 1 || archive_name == NULL) {
+    usage(*argv);
+  }
+
+  if (create) {
+    createArchive(archive_name, argc - optind, &argv[optind], verbose, strict);
+  }
+  // else if (list) {
+  //   listArchive(archive_name, verbose, strict);
+  // } else if (extract) {
+  //   extractArchive(archive_name, verbose, strict);
+  // }
+
+  return EXIT_SUCCESS;
+}
