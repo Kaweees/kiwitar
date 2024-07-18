@@ -5,7 +5,7 @@
 #include "tar.h"
 
 #define USAGE_STRING \
-  "Usage: %s  [ctxvS]f tarfile [ path [ ... ] ]\n" /* Program usage string */
+  "Usage: %s [ctxvS]f tarfile [ path [ ... ] ]\n" /* Program usage string */
 #define SYSCALL_ERROR -1
 
 /**
@@ -24,7 +24,7 @@ void usage(char* prog_name) {
  * @return int - the exit status
  */
 int main(int argc, char* argv[]) {
-  enum TarOptions opt;
+  enum ProgramOptions opt = 0;
   int create = 0, list = 0, extract = 0, verbose = 0, strict = 0;
   char* archive_name = NULL;
   while ((opt = getopt(argc, argv, "ctxvSf:")) != OUT_OF_OPTIONS) {

@@ -35,7 +35,7 @@
 /* Begin typedef declarations */
 
 /* Represents the options that can be passed to the program */
-typedef enum TarOptions {
+typedef enum ProgramOptions {
   CREATE_ARCHIVE = 'c',
   LIST_CONTENTS = 't',
   EXTRACT_CONTENTS = 'x',
@@ -43,7 +43,7 @@ typedef enum TarOptions {
   SPECIFY_ARCHIVE_NAME = 'f',
   STRICT_FORMAT = 'S',
   OUT_OF_OPTIONS = -1
-} TarOptions;
+} ProgramOptions;
 
 /* Represents the type of a file in a tar archive */
 typedef enum FileType {
@@ -91,9 +91,8 @@ typedef struct USTARHeader {
 
 /* Begin function prototype declarations */
 void createArchive(char *archive_name, int file_count, char *file_names[],
-    bool verbose, bool strict);
-void createArchiveHelper(
-    FILE *archive, char *curr_path, bool verbose, bool strict);
+    int verbose, int strict);
+void createArchiveHelper(int outfile, char *curr_path, int verbose, int strict);
 void listArchive(char *archive_name, int verbose, int strict);
 void extractArchive(char *archive_name, int verbose, int strict);
 
