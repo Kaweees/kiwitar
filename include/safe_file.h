@@ -1,13 +1,10 @@
+#pragma once
+
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 
-#ifndef FILE_ERROR
 #define FILE_ERROR -1
-#endif
-
-#ifndef SAFE_FILE_H
-#define SAFE_FILE_H
 
 /* Represents the contents of a file */
 typedef struct FileContent {
@@ -22,5 +19,3 @@ FileContent* safeRead(int fd);
 void safeWrite(int fd, void* buf, size_t count);
 void safeClose(int fd);
 void freeFileContent(FileContent* file_contents);
-
-#endif /* SAFE_FILE_H */

@@ -1,4 +1,4 @@
-#include "../include/tar.h"
+#include "../include/kiwitar.h"
 
 #include <arpa/inet.h>
 #include <dirent.h>
@@ -86,7 +86,12 @@ void handleDirContents(int outfile, char* curr_path, int verbose, int strict) {
     struct dirent* entry = dir_contents->entries[i];
     if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) { continue; }
     char* new_path = (char*)safeCalloc(sizeof(char), strlen(curr_path) + strlen(entry->d_name) + 2);
-    snprintf(new_path, PATH_MAX, "%s/%s", curr_path, entry->d_name);
+    // if (strlen(curr_path) + strlen(entry->d_name) + 2 > PATH_MAX) {
+    //   printf("Path too long: %s/%s\n", curr_path, entry->d_name);
+    //   exit(EXIT_FAILURE);
+    // }
+    // snprintf(new_path, PATH_MAX, "%s/%s", curr_path, entry->d_name);
+    snprintf(new_path, strlen(curr_path) + strlen(entry->d_name) + 2, "%s/%s", curr_path, entry->d_name);
     createArchiveHelper(outfile, new_path, verbose, strict);
     safeFree(new_path);
   }

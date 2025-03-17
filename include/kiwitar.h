@@ -1,5 +1,4 @@
-#ifndef TAR_H
-#define TAR_H
+#pragma once
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -94,5 +93,3 @@ void createArchive(char* archive_name, int file_count, char* file_names[], int v
 void createArchiveHelper(int outfile, char* curr_path, int verbose, int strict);
 void listArchive(char* archive_name, int verbose, int strict);
 void extractArchive(char* archive_name, int verbose, int strict);
-
-#endif /* TAR_H */

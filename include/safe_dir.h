@@ -1,3 +1,5 @@
+#pragma once
+
 #include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,9 +12,6 @@
 #ifndef PATH_MAX
 #define PATH_MAX 2048 /* Maximum number of characters in a path name */
 #endif
-
-#ifndef SAFE_DIR_H
-#define SAFE_DIR_H
 
 #define DIR_ERROR -1
 
@@ -33,4 +32,3 @@ void safeLstat(const char* path, struct stat* buf);
 void safeChdir(char* path);
 void freeDirContent(DirContent* dir_contents);
 char* safeGetCwd(char* buf, size_t size);
-#endif /* SAFE_DIR_H */
