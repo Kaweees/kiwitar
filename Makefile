@@ -30,11 +30,11 @@ DEBUGGER := gdb
 DEBUGGER_FLAGS :=
 
 # The name of the test input file
-TEST_INPUT := test_input.txt
+TEST_INPUT := -cvf archive.tar src
 # The name of the test output file
 TEST_OUTPUT := test_output.tar
 # The name of the reference executable
-REF_EXE := ~pn-cs357/demos/mytar
+REF_EXE := tar
 # The name of the reference output file
 REF_OUTPUT := ref_output.tar
 
@@ -105,9 +105,11 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 # Debug target: use a debugger to debug the program
-debug: $(TARGET_BIN)
+debug: clean dirs
+	$(CC) $(CFLAGS) -g $(INCS) -c $< -o $@
+	$(LD) $(LDFLAGS) -g $(OBJS) -o $(TARGET_BIN)
 	@echo "Debugging $(TARGET)..."
-	$(DEBUGGER) $(DEBUGGER_FLAGS) $(TARGET_BIN)
+	$(DEBUGGER) $(DEBUGGER_FLAGS) --args $(TARGET_BIN) $(TEST_INPUT)
 
 # Help target: display usage information
 help:
